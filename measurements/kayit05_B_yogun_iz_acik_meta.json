@@ -1,0 +1,101 @@
+{
+  "kosu": {
+    "kayit": "05",
+    "tekrar": 1,
+    "variant": "B",
+    "load": "yogun",
+    "trace": true,
+    "board_run": 5,
+    "capacity": 16,
+    "send_wait_ticks": 0,
+    "service_ms": 20,
+    "gap_ms": 100,
+    "attempts": 44,
+    "art_arda": "11..34",
+    "baslangic": "2026-10-11T14:23:23+03:00"
+  },
+  "seri": {
+    "port": "Web Serial USB 067b:2303",
+    "baud": 230400,
+    "qrun": "QRUN,5,B,yogun,16,0,20,100,T",
+    "ack": "ACK,0,S0,ATK"
+  },
+  "yazilim": {
+    "kaynak": "interface/index.html (Web Serial)",
+    "not": "Commit ve yuklu firmware bu araçtan okunamaz; README'de belirtin."
+  },
+  "systemview": null,
+  "kontroller": [
+    {
+      "kontrol": "44 QMSG, seq 1..44",
+      "tamam": true,
+      "ayrinti": "44 satır"
+    },
+    {
+      "kontrol": "QEND = QMSG sayısı",
+      "tamam": true,
+      "ayrinti": "QEND 44"
+    },
+    {
+      "kontrol": "attempted = 44",
+      "tamam": true,
+      "ayrinti": "44"
+    },
+    {
+      "kontrol": "attempted = accepted + failed",
+      "tamam": true,
+      "ayrinti": "44 = 36 + 8"
+    },
+    {
+      "kontrol": "accepted = consumed (kuyruk boşaldı)",
+      "tamam": true,
+      "ayrinti": "36 / 36"
+    },
+    {
+      "kontrol": "QMSG ok/fail = sayaçlar",
+      "tamam": true,
+      "ayrinti": "ok 36, fail 8"
+    },
+    {
+      "kontrol": "kabul edilenin gecikmesi var",
+      "tamam": true,
+      "ayrinti": ""
+    },
+    {
+      "kontrol": "başarısızın gecikmesi boş (0 değil)",
+      "tamam": true,
+      "ayrinti": ""
+    },
+    {
+      "kontrol": "sıra hatası yok",
+      "tamam": true,
+      "ayrinti": "0"
+    },
+    {
+      "kontrol": "tüketici koşu ortasında zaman aşımına düşmedi",
+      "tamam": true,
+      "ayrinti": "0"
+    }
+  ],
+  "ozet": {
+    "attempted": 44,
+    "accepted": 36,
+    "failed": 8,
+    "consumed": 36,
+    "queue_max": 16,
+    "art_arda_accepted": 16,
+    "art_arda_failed": 8,
+    "send_ok_mean_us": 5.916666666666667,
+    "send_ok_max_us": 8,
+    "send_fail_mean_us": 3.125,
+    "send_fail_max_us": 4,
+    "producer_send_total_ms": 0.238,
+    "g2r_mean_us": 78320.86111111111,
+    "g2r_p95_us": 279858,
+    "g2r_max_us": 299873,
+    "service_mean_us": 19976.75,
+    "run_ms": 2019.99,
+    "stack_hwm_producer": 339,
+    "stack_hwm_consumer": 329
+  }
+}

@@ -1,0 +1,11 @@
+name,value
+attempted,44
+accepted,24
+failed,20
+consumed,24
+queue_max,4
+rx_idle_timeout,0
+order_error,0
+run_us,2019990
+stack_hwm_producer,339
+stack_hwm_consumer,329

@@ -1,0 +1,7 @@
+kayit,tekrar,variant,load,trace,capacity,send_wait_ticks,attempted,accepted,failed,consumed,queue_max,art_arda_accepted,art_arda_failed,send_ok_mean_us,send_ok_max_us,send_fail_mean_us,send_fail_max_us,producer_send_total_ms,g2r_mean_us,g2r_p95_us,g2r_max_us,service_mean_us,run_ms,kontroller_tamam,baslangic,dosya
+01,1,A,normal,acik,4,0,44,44,0,44,1,0,0,8,8,,,0.4,25.9,26,26,19971.9,4320,True,2026-10-11T14:21:03+03:00,kayit01_A_normal_iz_acik
+02,1,B,normal,acik,16,0,44,44,0,44,1,0,0,8,8,,,0.4,25.9,26,26,19971.9,4320,True,2026-10-11T14:22:03+03:00,kayit02_B_normal_iz_acik
+03,1,C,normal,acik,4,20,44,44,0,44,1,0,0,8,8,,,0.4,25.9,26,26,19971.9,4320,True,2026-10-11T14:22:26+03:00,kayit03_C_normal_iz_acik
+04,1,A,yogun,acik,4,0,44,24,20,24,4,4,20,7.5,8,3.2,4,0.2,5028.5,39980,59970,19966.2,2020,True,2026-10-11T14:22:38+03:00,kayit04_A_yogun_iz_acik
+05,1,B,yogun,acik,16,0,44,36,8,36,16,16,8,5.9,8,3.1,4,0.2,78320.9,279858,299873,19976.8,2020,True,2026-10-11T14:23:23+03:00,kayit05_B_yogun_iz_acik
+06,1,C,yogun,acik,4,20,44,34,10,34,4,14,10,16.6,39,19946.4,19949,200,27093.6,80070,80070,19967.5,2220,True,2026-10-11T14:25:04+03:00,kayit06_C_yogun_iz_acik

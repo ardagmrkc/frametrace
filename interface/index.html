@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hafta 03 — Queue Kayıt Masası</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Kuyruk dolunca sistem ne yapıyor? <span class="h1-sub">Hafta 3 · A/B/C + Arda</span></h1>
+  <div id="conn-panel">
+    <span id="conn-status" class="status status--disconnected">Bağlı değil</span>
+    <button id="btn-connect">Bağlan</button>
+    <button id="btn-disconnect" disabled>Bağlantıyı Kes</button>
+    <span id="serial-support-warning" class="warning" hidden>
+      Bu tarayıcı Web Serial API desteklemiyor. Chrome veya Edge kullanın.
+    </span>
+  </div>
+</header>
+
+<main>
+  <section class="panel panel--wide" id="panel-run">
+    <div class="panel-header-row">
+      <h2>Kayıt matrisi</h2>
+      <span class="hint" id="board-status">Bağlı değil</span>
+    </div>
+    <div class="rec-grid" id="rec-grid"></div>
+    <div class="progress" id="run-progress" hidden><div class="progress-bar" id="run-progress-bar"></div></div>
+    <p class="run-status" id="run-status"></p>
+    <p class="hint">
+      Koşu sırasında hatta satır çıkmaz; 44 mesajın kaydı koşu bitince tek seferde gelir. B1 butonuna
+      basmayın. Yük: normal = her girişimden sonra 100 ms; yoğun = 10 normal + 24 art arda (11..34) + 10 normal.
+      Tüketici her mesajda 20 ms servis bekler. Kayıt 07 için firmware <code>USE_SYSVIEW 0</code> ile derlenmiş olmalı.
+    </p>
+
+    <div class="arda-block">
+      <div class="panel-header-row">
+        <h3 class="sub">Arda / yoğun · kendi tasarımın</h3>
+        <span class="hint">ödev matrisinin dışında, ek deney</span>
+      </div>
+      <div class="rec-grid" id="rec-grid-arda"></div>
+      <ol class="steps">
+        <li><b>Adım 1</b> 1 ms çerçeve görevi (polling) · statik tablo, 1 bayt indeks · 0 tick bekleme · boyut hesabı</li>
+        <li><b>Adım 2</b> servis = 15 baytlık ikili çerçevenin iletimi (~0,65 ms → 1 ms çerçeve; model)</li>
+        <li><b>Adım 3</b> port katmanı: mesaj queuing, durum sampling · deadline 20 ms, aşan atılmaz, sayılır</li>
+        <li><b>Adım 4</b> ikinci kurye = ikinci hat (UART) · alıcı iki hattı sıra numarasıyla birleştirir</li>
+        <li><b>Adım 5</b> toplu servis: seferde en çok 3 mesaj aynı hatta arka arkaya · 3 mesaj 2 çerçevede</li>
+        <li><b>Adım 6</b> çerçeve TIM2'den: Producer tick kenarında, tüketici 500 µs sonra (çerçeve ortası)</li>
+      </ol>
+      <p class="hint">Kayıt 14 altı adımın toplamı. Aynı yoğun yük (44 girişim, 11..34 art arda); <code>'Q'</code> 0x14.</p>
+    </div>
+  </section>
+
+  <section class="panel panel--wide" id="panel-result">
+    <div class="panel-header-row">
+      <h2>Koşu sonucu</h2>
+      <select id="run-select" disabled></select>
+      <button id="btn-save-run" disabled>Bu koşuyu kaydet (4 dosya)</button>
+      <span class="hint" id="run-saved"></span>
+    </div>
+    <p class="hint" id="result-empty">Henüz koşu yok. Bağlanıp kayıt matrisinden bir koşu başlatın.</p>
+    <div id="result-body" hidden>
+      <div class="tiles" id="tiles"></div>
+      <ul class="checks" id="checks"></ul>
+
+      <h3 class="sub">Mesaj zaman çizelgesi</h3>
+      <div class="tl-legend">
+        <span><i class="sw sw-block"></i>gönderimde bloklu (send_call)</span>
+        <span><i class="sw sw-wait"></i>kuyrukta bekleme</span>
+        <span><i class="sw sw-svc"></i>servis (20 ms)</span>
+        <span><i class="sw sw-fail"></i>başarısız gönderim</span>
+        <span><i class="sw sw-burst"></i>art arda bölüm (yoğun)</span>
+      </div>
+      <div class="tl-wrap">
+        <canvas id="timeline"></canvas>
+        <div id="tl-tip" class="tl-tip" hidden></div>
+      </div>
+      <p class="hint">
+        Her satır bir gönderme girişimi (seq 1 üstte). Çubuk, üretim anından başlar; kuyrukta bekleme +
+        servis, üretimden tüketicinin işi bitirmesine kadar geçen süredir. Ayrıntı için satırın üzerine gelin.
+      </p>
+
+      <details id="msg-details">
+        <summary>44 mesajın tablosu</summary>
+        <table id="msg-table">
+          <thead>
+            <tr>
+              <th>seq</th><th>bölüm</th><th>sonuç</th><th>üretim (ms)</th><th>send_call</th>
+              <th>üretim→alma (ms)</th><th>servis (ms)</th><th>doluluk</th>
+            </tr>
+          </thead>
+          <tbody id="msg-tbody"></tbody>
+        </table>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel panel--wide" id="panel-compare">
+    <div class="panel-header-row">
+      <h2>Karşılaştırma</h2>
+      <button id="btn-summary" disabled>Özet CSV indir</button>
+      <button id="btn-clear-session" class="btn-quiet" disabled>Oturumu temizle</button>
+    </div>
+    <table id="compare-table">
+      <thead>
+        <tr>
+          <th>kayıt</th><th>sürüm / yük</th><th>iz</th><th>kabul</th><th>kayıp</th><th>art arda kabul / kayıp</th>
+          <th>kuyruk tepe</th><th>başarısız send_call ort.</th><th>üretim→alma ort.</th><th>p95</th><th>maks</th>
+          <th>koşu</th><th>kontroller</th><th>dosya</th>
+        </tr>
+      </thead>
+      <tbody id="compare-tbody"></tbody>
+    </table>
+    <p class="hint">
+      Tek etkenli karşılaştırmalar: A→B kapasite (04 ↔ 05), A→C bekleme politikası (04 ↔ 06), iz etkisi (04 ↔ 07).
+      Kendi tasarımın: C → Arda2 (06 ↔ 14).
+      Koşular bu tarayıcıda saklanır; kaydedilen dosyaları <code>measurements/</code> altına koyup
+      <code>python analysis/queue_experiment.py --ozet</code> ile ortak tabloya katın.
+    </p>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

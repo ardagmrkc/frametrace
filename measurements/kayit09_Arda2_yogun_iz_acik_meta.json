@@ -1,0 +1,126 @@
+{
+  "kosu": {
+    "kayit": "09",
+    "tekrar": 1,
+    "variant": "E",
+    "load": "yogun",
+    "trace": true,
+    "board_run": 5,
+    "capacity": 32,
+    "send_wait_ticks": 0,
+    "service_ms": 1,
+    "gap_ms": 100,
+    "attempts": 44,
+    "art_arda": "11..34",
+    "baslangic": "2026-10-13T15:30:48+03:00"
+  },
+  "seri": {
+    "port": "Web Serial USB 067b:2303",
+    "baud": 230400,
+    "qrun": "QRUN,5,E,yogun,32,0,1,100,T",
+    "ack": "ACK,1,S0,ATK"
+  },
+  "yazilim": {
+    "kaynak": "interface/index.html (Web Serial)",
+    "not": "Commit ve yuklu firmware bu araçtan okunamaz; README'de belirtin."
+  },
+  "systemview": null,
+  "kontroller": [
+    {
+      "kontrol": "44 QMSG, seq 1..44",
+      "tamam": true,
+      "ayrinti": "44 satır"
+    },
+    {
+      "kontrol": "QEND = QMSG sayısı",
+      "tamam": true,
+      "ayrinti": "QEND 44"
+    },
+    {
+      "kontrol": "attempted = 44",
+      "tamam": true,
+      "ayrinti": "44"
+    },
+    {
+      "kontrol": "attempted = accepted + failed",
+      "tamam": true,
+      "ayrinti": "44 = 44 + 0"
+    },
+    {
+      "kontrol": "accepted = consumed (kuyruk boşaldı)",
+      "tamam": true,
+      "ayrinti": "44 / 44"
+    },
+    {
+      "kontrol": "QMSG ok/fail = sayaçlar",
+      "tamam": true,
+      "ayrinti": "ok 44, fail 0"
+    },
+    {
+      "kontrol": "kabul edilenin gecikmesi var",
+      "tamam": true,
+      "ayrinti": ""
+    },
+    {
+      "kontrol": "başarısızın gecikmesi boş (0 değil)",
+      "tamam": true,
+      "ayrinti": ""
+    },
+    {
+      "kontrol": "sıra hatası yok",
+      "tamam": true,
+      "ayrinti": "0"
+    },
+    {
+      "kontrol": "tüketici koşu ortasında zaman aşımına düşmedi",
+      "tamam": true,
+      "ayrinti": "0"
+    },
+    {
+      "kontrol": "Arda: hiç kayıp yok (gönderimde ve serviste)",
+      "tamam": true,
+      "ayrinti": "gönderimde 0, serviste 0"
+    },
+    {
+      "kontrol": "Arda: tablo dolmadı, indeks hatası yok",
+      "tamam": true,
+      "ayrinti": "boş 0, hata 0/0"
+    },
+    {
+      "kontrol": "Arda: her indeks geri döndü",
+      "tamam": true,
+      "ayrinti": "0"
+    },
+    {
+      "kontrol": "Arda: döküm isteği beklemeden kondu",
+      "tamam": true,
+      "ayrinti": "0"
+    },
+    {
+      "kontrol": "Arda: çerçeve kaçırılmadı",
+      "tamam": true,
+      "ayrinti": "0"
+    }
+  ],
+  "ozet": {
+    "attempted": 44,
+    "accepted": 44,
+    "failed": 0,
+    "consumed": 44,
+    "queue_max": 24,
+    "art_arda_accepted": 24,
+    "art_arda_failed": 0,
+    "send_ok_mean_us": 7.75,
+    "send_ok_max_us": 8,
+    "send_fail_mean_us": null,
+    "send_fail_max_us": null,
+    "producer_send_total_ms": 0.341,
+    "g2r_mean_us": 7176.409090909091,
+    "g2r_p95_us": 21695,
+    "g2r_max_us": 23667,
+    "service_mean_us": 986.9318181818181,
+    "run_ms": 2001.971,
+    "stack_hwm_producer": 336,
+    "stack_hwm_consumer": 336
+  }
+}
